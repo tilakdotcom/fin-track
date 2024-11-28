@@ -13,10 +13,10 @@ export class ApiError extends Error{
     sucess?: boolean
   ){
     super(message);
+    this.sucess = sucess || false;
     this.statusCode = statusCode;
     this.error = error;
     this.data = data;
-    this.sucess = sucess || false;
     if(stack) {
       this.stack = stack;
     } else {

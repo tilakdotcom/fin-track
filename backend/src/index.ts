@@ -1,7 +1,6 @@
 import dotEnv from "dotenv";
 import { app } from "./app";
 import dbConnect from "./db/dbConnect";
-import { error } from "console";
 
 dotEnv.config({
     path: "./.env"

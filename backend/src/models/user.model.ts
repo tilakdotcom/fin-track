@@ -1,4 +1,4 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
@@ -34,11 +34,9 @@ const userSchema: Schema<User> = new Schema(
     },
     avatarUrl: {
       type: String,
-      required: [true, "avatar must be provided"],
     },
     refreshToken: {
       type: String,
-      required: [true, "url must be provided"],
       trim: true,
     },
   },

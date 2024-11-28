@@ -14,8 +14,8 @@ app.use(
   cors({
     origin: process.env.CORS_ORIGIN,
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    // methods: ["GET", "POST", "PUT", "DELETE"],
+    // allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
@@ -27,6 +27,6 @@ app.use(cookieParser());
 import userRouter from "@/routes/user.routes";
 
 // declarations routes
-app.use("/api/users", userRouter);
+app.use("/api/v1/users", userRouter);
 
 export { app };

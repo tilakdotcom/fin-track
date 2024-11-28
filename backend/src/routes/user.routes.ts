@@ -12,7 +12,6 @@ const router = Router();
 // routes
 router.route("/signup").post(
   upload.single(
-    // middleware NAMES
     "avatar"
   ),
   signup
