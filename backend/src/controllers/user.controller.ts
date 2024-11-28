@@ -4,9 +4,11 @@ import { ApiResponse } from "@/utils/ApiResponse";
 import { asyncHandler } from "@/utils/asyncHandler";
 import uploadImageToCloudinary from "@/utils/cloudinary";
 import { Request, Response } from "express";
+import fs from "fs";
 
 const signup = asyncHandler(async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
+  const avatarLocalPath = req.file?.path;
 
   //validations
   if (!name || !email || !password) {
@@ -17,15 +19,18 @@ const signup = asyncHandler(async (req: Request, res: Response) => {
       )
     );
   }
-  //check is exist
-  const userExists = await User.findOne({ email });
-  if (userExists) {
-    return res.json(new ApiError(400, "Email already exists"));
-  }
-  const avatarLocalPath = req.file?.path;
+
   if (!avatarLocalPath) {
     return res.json(new ApiError(400, "Please upload a profile image"));
   }
+
+  //check is exist
+  const userExists = await User.findOne({ email });
+  if (userExists) {
+    fs.unlinkSync(avatarLocalPath);
+    return res.json(new ApiError(400, "Email already exists"));
+  }
+
   //upload image
   const uploadImageUrl = await uploadImageToCloudinary(avatarLocalPath);
 
@@ -33,7 +38,7 @@ const signup = asyncHandler(async (req: Request, res: Response) => {
     name,
     email,
     password,
-    avatarUrl: uploadImageUrl,
+    avatarUrl: uploadImageUrl.secure_url,
   });
   await newUser.save();
   return res.status(201).json(
