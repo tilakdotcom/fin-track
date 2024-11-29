@@ -7,33 +7,31 @@ import { generateAccessAndRefreshToken } from "@/utils/generateAccessAndRefreshT
 import { Request, Response } from "express";
 import fs from "fs";
 
+//signup
 const signup = asyncHandler(async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
   const avatarLocalPath = req.file?.path;
 
   //validations
   if (!name || !email || !password) {
-    return res
-      .status(400)
-      .json(
-        new ApiError(
-          400,
-          "Please provide all required fields: name, email, password"
-        )
-      );
+   throw new ApiError(
+    400,
+    "Please provide all required fields: name, email, password"
+  )
   }
 
   if (!avatarLocalPath) {
-    return res
-      .status(400)
-      .json(new ApiError(400, "Please upload a profile image"));
+    throw new ApiError(
+      400,
+      "Please upload an avatar image"
+    );
   }
 
   //check is exist
   const userExists = await User.findOne({ email });
   if (userExists) {
     fs.unlinkSync(avatarLocalPath);
-    return res.status(400).json(new ApiError(400, "Email already exists"));
+    throw new ApiError(400, "Email already exists")
   }
 
   //upload image
@@ -57,47 +55,41 @@ const signup = asyncHandler(async (req: Request, res: Response) => {
   );
 });
 
+//login
 const login = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   //validations
   if (!email || !password) {
-    return res
-      .status(400)
-      .json(
-        new ApiError(400, "Please provide all required fields: email, password")
-      );
+    throw new ApiError(400, "Please provide all required fields: email, password")
   }
   //check if exist
   const user = await User.findOne({ email });
 
   //validation
   if (!user) {
-    return res.status(400).json(
-      new ApiResponse({
-        statusCode: 404,
-        message: "user not found",
-      })
-    );
+    throw new ApiError(404,"user not found")
   }
 
   //password check
   const isMatch = await user.comparePassword(password);
   if (!isMatch) {
-    return res.status(401).json(
-      new ApiResponse({
-        statusCode: 401,
-        message: "Invalid credentials",
-      })
-    );
+    throw new ApiError(401, "invalid credentials")
   }
 
   //generate tokens
   const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
     user._id
   );
-  user.refreshToken = "";
-  user.password = "";
+  const userRefreshToken = await User.findByIdAndUpdate(
+    user._id,
+    {
+      $set: {
+        refreshToken: refreshToken,
+      },
+    },
+    { new: true }
+  ).select("-password -refreshToken");
 
   const options = {
     httpOnly: true,
@@ -112,9 +104,44 @@ const login = asyncHandler(async (req: Request, res: Response) => {
       new ApiResponse({
         statusCode: 200,
         message: "Logged in successfully",
-        data: { user, accessToken, refreshToken },
+        data: { user },
       })
     );
 });
 
-export { signup, login };
+//logout
+const logout = asyncHandler(async (req: Request, res: Response) => {
+  const userId = req.user?._id;
+  if (!userId) {
+    throw new ApiError(404, "User not found")
+  } 
+  const userNull = await User.findByIdAndUpdate(userId,
+    {
+      $set: {
+        refreshToken: null,
+      },
+    },
+    { new: true }
+  )
+
+  //validation
+  if (!userNull) {
+    throw new ApiError(404, "User not found")
+  }
+
+  const options = {
+    httpOnly: true,
+    secure: true,
+  }
+
+  return res
+  .clearCookie("accessToken" , options)
+  .clearCookie("refreshToken", options)
+  .json({
+    statusCode: 200,
+    message: "Logged out successfully",
+    data: null,
+  })
+});
+
+export { signup, login,logout };

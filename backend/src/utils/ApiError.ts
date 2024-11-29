@@ -15,6 +15,7 @@ export class ApiError extends Error{
     super(message);
     this.sucess = sucess || false;
     this.statusCode = statusCode;
+    this.message = message;
     this.error = error;
     this.data = data;
     if(stack) {
