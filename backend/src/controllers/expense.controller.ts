@@ -20,6 +20,7 @@ const addExpense = asyncHandler(async (req: Request, res: Response) => {
   }
   //check if exist
   const expense = await Expense.findOne({
+    userId: userId,
     categoryId: categoryId,
     title: title,
   });

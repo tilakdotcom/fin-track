@@ -26,9 +26,11 @@ app.use(cookieParser());
 import userRouter from "@/routes/user.routes";
 import categoryRouter from "@/routes/category.routes";
 import expenseRouter from "@/routes/expense.routes";
+import incomeRouter from "@/routes/income.routes";
 
 // declarations routes
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/category", categoryRouter);
 app.use("/api/v1/expense", expenseRouter);
+app.use("/api/v1/income", incomeRouter);
 export { app };
