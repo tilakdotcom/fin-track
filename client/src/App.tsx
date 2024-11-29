@@ -4,16 +4,18 @@ import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import NavBar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
+import AddExpense from "./pages/AddExpense";
 
 
 export default function App() {
-  return <div className="">
+  return <div className="overflow-x-hidden">
     <BrowserRouter>
         {/* Navigation */}
         <NavBar  />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/expense" element={<AddExpense />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
