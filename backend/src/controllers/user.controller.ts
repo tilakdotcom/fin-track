@@ -13,23 +13,27 @@ const signup = asyncHandler(async (req: Request, res: Response) => {
 
   //validations
   if (!name || !email || !password) {
-    return res.json(
-      new ApiError(
-        400,
-        "Please provide all required fields: name, email, password"
-      )
-    );
+    return res
+      .status(400)
+      .json(
+        new ApiError(
+          400,
+          "Please provide all required fields: name, email, password"
+        )
+      );
   }
 
   if (!avatarLocalPath) {
-    return res.json(new ApiError(400, "Please upload a profile image"));
+    return res
+      .status(400)
+      .json(new ApiError(400, "Please upload a profile image"));
   }
 
   //check is exist
   const userExists = await User.findOne({ email });
   if (userExists) {
     fs.unlinkSync(avatarLocalPath);
-    return res.json(new ApiError(400, "Email already exists"));
+    return res.status(400).json(new ApiError(400, "Email already exists"));
   }
 
   //upload image
@@ -58,16 +62,18 @@ const login = asyncHandler(async (req: Request, res: Response) => {
 
   //validations
   if (!email || !password) {
-    return res.json(
-      new ApiError(400, "Please provide all required fields: email, password")
-    );
+    return res
+      .status(400)
+      .json(
+        new ApiError(400, "Please provide all required fields: email, password")
+      );
   }
   //check if exist
   const user = await User.findOne({ email });
 
   //validation
   if (!user) {
-    return res.json(
+    return res.status(400).json(
       new ApiResponse({
         statusCode: 404,
         message: "user not found",
@@ -78,7 +84,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
   //password check
   const isMatch = await user.comparePassword(password);
   if (!isMatch) {
-    return res.json(
+    return res.status(401).json(
       new ApiResponse({
         statusCode: 401,
         message: "Invalid credentials",
@@ -93,25 +99,22 @@ const login = asyncHandler(async (req: Request, res: Response) => {
   user.refreshToken = "";
   user.password = "";
 
-  const options ={
+  const options = {
     httpOnly: true,
     secure: true,
-  }
+  };
   //return
   return res
-  .status(200)
-  .cookie("accessToken", accessToken , options)
-  .cookie("refreshToken", refreshToken , options)
-  .json(
-    new ApiResponse({
-      statusCode: 200,
-      message: "Logged in successfully",
-      data: { user, accessToken, refreshToken},
-    })
-  )
-
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+      new ApiResponse({
+        statusCode: 200,
+        message: "Logged in successfully",
+        data: { user, accessToken, refreshToken },
+      })
+    );
 });
-
-
 
 export { signup, login };
