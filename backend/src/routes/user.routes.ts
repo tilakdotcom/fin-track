@@ -1,4 +1,4 @@
-import { signup } from "@/controllers/user.controller";
+import { login, signup } from "@/controllers/user.controller";
 import { upload } from "@/middlewares/multer.middleware";
 import { Router } from "express";
 
@@ -7,8 +7,6 @@ import { Router } from "express";
 //router
 const router = Router();
 
-//middlewares
-
 // routes
 router.route("/signup").post(
   upload.single(
@@ -16,6 +14,9 @@ router.route("/signup").post(
   ),
   signup
 )
+
+router.route("/login").post(login)
+
 
 
 export default router

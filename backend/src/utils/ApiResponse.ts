@@ -9,7 +9,7 @@ export class ApiResponse {
   data?: any;
   success?: boolean;
   message: string;
-  constructor({ statusCode, data, success = true, message }: ApiResponseType) {
+  constructor({ statusCode,message, data, success = true }: ApiResponseType) {
      this.success = statusCode >= 200 && statusCode <= 300;
     this.statusCode = statusCode || 200;
     this.data = data;
