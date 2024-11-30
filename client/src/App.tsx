@@ -19,6 +19,7 @@ export default function App() {
           <>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/expense" element={<AddExpense />} />
+            <Route path="/income" element={<AddExpense />} />
           </>
         ) : (
           <>
