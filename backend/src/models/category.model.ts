@@ -1,11 +1,17 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 interface CategoryType extends Document {
+  userId: mongoose.ObjectId;
   name: string;
   type: string;
 }
 
 const categorySchema = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   name: {
     type: String,
       required: [true, "name must be provided"],

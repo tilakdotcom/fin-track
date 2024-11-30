@@ -1,4 +1,4 @@
-import { addCategory, removeCategory } from "@/controllers/category.controller";
+import { addCategory, getAllCategories, removeCategory } from "@/controllers/category.controller";
 import { verifyJWT } from "@/middlewares/auth.middleware";
 import { Router } from "express";
 
@@ -9,7 +9,8 @@ const router = Router();
 router.use(verifyJWT);
 
 
+router.route("/").get(getAllCategories)
 router.route("/add").post(addCategory)
-router.route("/remove").delete(removeCategory)
+router.route("/:categoryId").delete(removeCategory)
 
 export default router;
