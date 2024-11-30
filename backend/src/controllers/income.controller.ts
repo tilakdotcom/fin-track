@@ -44,8 +44,8 @@ const addIncome = asyncHandler(async (req: Request, res: Response) => {
   return res.status(201).json(
     new ApiResponse({
       statusCode: 201,
-      message: "Expense added successfully",
-      data: { expense: savedIncome },
+      message: "Income added successfully",
+      data: savedIncome ,
     })
   );
 });
@@ -56,15 +56,15 @@ const getIncomes = asyncHandler(async (req: Request, res: Response) => {
   if (!userId) {
     throw new ApiError(401, "User not authenticated");
   }
-  //find expenses by user id
+  //find income by user id
   const incomes = await Income.find({ userId: userId });
   if (!incomes) {
-    throw new ApiError(404, "No expenses found for the user");
+    throw new ApiError(404, "No income found for the user");
   }
   return res.status(200).json(
     new ApiResponse({
       statusCode: 200,
-      message: "Expenses fetched successfully",
+      message: "income fetched successfully",
       data: { incomes },
     })
   );
@@ -72,7 +72,7 @@ const getIncomes = asyncHandler(async (req: Request, res: Response) => {
 
 const updateIncome = asyncHandler(async (req: Request, res: Response) => {
   const { source, amount, description } = req.body;
-  const incomeId = req.params;
+  const {incomeId} = req.params;
   //validation
   if (!incomeId) {
     throw new ApiError(400, "Please provide an expense id");
@@ -102,7 +102,7 @@ const updateIncome = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const removeIncome = asyncHandler(async (req: Request, res: Response) => {
-  const incomeId = req.params;
+  const {incomeId} = req.params;
   //validation
   if (!incomeId) {
     throw new ApiError(400, "Please provide an income id");

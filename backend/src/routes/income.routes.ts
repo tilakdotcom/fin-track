@@ -12,5 +12,5 @@ router.route("/add").post(addIncome);
 
 router.route("/").get(getIncomes);
 
-router.route("/:expenseId").put(updateIncome).delete(removeIncome);
+router.route("/:incomeId").put(updateIncome).delete(removeIncome);
 export default router;
