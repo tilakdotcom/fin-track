@@ -8,7 +8,7 @@ import AddExpense from "./pages/AddExpense";
 import { useAppSelector } from "./store/reduxHooks";
 
 export default function App() {
-  const { currentUser } = useAppSelector((s) => s.user);
+  const { currentUser } = useAppSelector((s) => s.persistedReducer.user);
   return (
     <div className="overflow-x-hidden">
       {/* Navigation */}

@@ -19,7 +19,7 @@ const loginData = [
   },
 ];
 const NavBar = () => {
-  const { currentUser } = useAppSelector((s) => s.user);
+  const { currentUser } = useAppSelector((s) => s.persistedReducer.user);
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (

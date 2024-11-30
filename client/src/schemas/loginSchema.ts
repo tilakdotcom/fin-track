@@ -1,8 +1,13 @@
-import { z } from "zod"
- 
-export  const loginSchma = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-})
- 
+import { z } from "zod";
+
+const email = z.string().min(6, {
+  message: "Username must be at least 6 characters.",
+});
+const password = z.string().min(6, {
+  message: "Username must be at least 6 characters.",
+});
+
+export const loginSchma = z.object({
+  email: email,
+  password: password,
+});
