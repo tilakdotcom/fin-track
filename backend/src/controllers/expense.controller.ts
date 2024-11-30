@@ -72,7 +72,7 @@ const getAllExpenses = asyncHandler(async (req: Request, res: Response) => {
 
 const updateExpense = asyncHandler(async (req: Request, res: Response) => {
   const { title, amount, description } = req.body;
-  const expenseId = req.params;
+  const {expenseId} = req.params;
   //validation
   if (!expenseId) {
     throw new ApiError(400, "Please provide an expense id");
@@ -102,7 +102,7 @@ const updateExpense = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const removeExpense = asyncHandler(async (req: Request, res: Response) => {
-  const expenseId = req.params;
+  const {expenseId} = req.params;
   //validation
   if (!expenseId) {
     throw new ApiError(400, "Please provide an expense id");
