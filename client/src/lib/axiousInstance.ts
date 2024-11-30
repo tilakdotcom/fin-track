@@ -1,8 +1,7 @@
-"use client"
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 
-const api = axios.create({
-  baseURL: import.meta.env.BACKEND_URI,
+const api : AxiosInstance = axios.create({
+  baseURL: `${import.meta.env.VITE_BACKEND_URI}`,
   withCredentials: true,
 })
 

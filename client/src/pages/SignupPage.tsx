@@ -37,6 +37,8 @@ export default function SignupPage() {
     if (values.avatar) formData.append("avatar", values.avatar);
 
     try {
+
+      console.log("env",import.meta.env.BACKEND_URI);
       const response = await api.post("/user/signup", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -48,7 +50,7 @@ export default function SignupPage() {
       }
       console.log("User Signup Successful", response);
     } catch (error) {
-      console.log("No avatar provided", error);
+      console.log("Signup Failed", error);
       return;
     }
   }
