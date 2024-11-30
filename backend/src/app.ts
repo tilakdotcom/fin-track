@@ -1,6 +1,10 @@
 import express, { Express } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import dotEnv from "dotenv";
+dotEnv.config({
+    path: "./.env"
+})
 
 const app: Express = express();
 
@@ -10,12 +14,13 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public")); //for testing purposes learn
 
 //cors middleware
+
+
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN,
     credentials: true,
-    // methods: ["GET", "POST", "PUT", "DELETE"],
-    // allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
