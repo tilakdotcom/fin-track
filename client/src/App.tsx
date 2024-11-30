@@ -1,29 +1,33 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import NavBar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import AddExpense from "./pages/AddExpense";
-import { Provider } from "react-redux";
-import { store } from "./store/store"
+import { useAppSelector } from "./store/reduxHooks";
 
 export default function App() {
+  const { currentUser } = useAppSelector((s) => s.user);
   return (
     <div className="overflow-x-hidden">
-      <BrowserRouter>
-        <Provider store={store}>
-          {/* Navigation */}
-          <NavBar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/expense" element={<AddExpense />} />
+      {/* Navigation */}
+      <NavBar />
+      <Routes>
+        
+        {currentUser ? (
+          <>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/expense" element={<AddExpense />} />
+          </>
+        ) : (
+          <>
+            <Route path="/signup" element={<SignupPage />} />
             <Route path="/login" element={<LoginPage />} />
-          </Routes>
-        </Provider>
-      </BrowserRouter>
+            <Route path="/" element={<HomePage />} />
+          </>
+        )}
+      </Routes>
     </div>
   );
 }
