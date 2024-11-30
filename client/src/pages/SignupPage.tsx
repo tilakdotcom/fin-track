@@ -2,7 +2,7 @@ import React from "react";
 
 export default function SignupPage() {
   return (
-    <div className="lg:px-20 px-10 lg:py-16 py-10">
+    <div className="lg:px-20 px-10 py-5">
       <div className="md:grid-cols-2 grid grid-cols-1 gap-10">
         {/* Left section with image */}
         <div className="flex justify-center items-center">

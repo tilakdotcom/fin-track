@@ -1,44 +1,53 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
+interface user {
+  _id: string;
+  name: string;
+  password: string;
+  email: string;
+  avatarUrl: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 interface userState {
-  currentUser: null;
+  currentUser: user | null;
   loading: boolean;
   error: boolean;
 }
 
-const initialState: userState ={
-  currentUser : null,
-  loading:false,
-  error:false,
-}
+const initialState: userState = {
+  currentUser: null,
+  loading: false,
+  error: false,
+};
 
 export const userSlice = createSlice({
-  name:"user",
+  name: "user",
   initialState,
-  reducers:{
-    loginStart : (state)=>{
+  reducers: {
+    loginStart: (state) => {
       state.loading = true;
       state.error = false;
     },
-    loginSuccess: (state,action)=>{
+    loginSuccess: (state, action) => {
       state.currentUser = action.payload;
       state.loading = false;
       state.error = false;
     },
-    logout:(state)=>{
+    logout: (state) => {
       state.currentUser = null;
       state.loading = false;
       state.error = false;
     },
-    loginFailure : (state)=>{
+    loginFailure: (state) => {
       state.loading = false;
       state.error = true;
-    }
-  }
-})
+    },
+  },
+});
 
-
-export const { loginStart, loginSuccess, logout, loginFailure } = userSlice.actions;
+export const { loginStart, loginSuccess, logout, loginFailure } =
+  userSlice.actions;
 
 export default userSlice.reducer;

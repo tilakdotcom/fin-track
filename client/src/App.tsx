@@ -6,8 +6,7 @@ import NavBar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import AddExpense from "./pages/AddExpense";
 import { Provider } from "react-redux";
-import { store } from "./store/store";
-
+import { store } from "./store/store"
 
 export default function App() {
   return (
