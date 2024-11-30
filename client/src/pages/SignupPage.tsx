@@ -1,6 +1,34 @@
-import React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { signupSchma } from "@/schemas/signupSchema";
+import { z } from "zod";
 
 export default function SignupPage() {
+  const form = useForm<z.infer<typeof signupSchma>>({
+    resolver: zodResolver(signupSchma),
+    defaultValues: {
+      email: "",
+      password: "",
+      avatar: undefined,
+      name: "",
+    },
+  });
+  const ACCEPTED_IMAGE_TYPES = ".jpg,.jpeg,.png,.webp";
+
+  function onSubmit(values: z.infer<typeof signupSchma>) {
+    console.log(values);
+  }
   return (
     <div className="lg:px-20 px-10 py-5">
       <div className="md:grid-cols-2 grid grid-cols-1 gap-10">
@@ -15,7 +43,107 @@ export default function SignupPage() {
 
         {/* Right section with signup form */}
         <div className="flex justify-center items-center lg:px-16">
-          <form className="w-full bg-gray-800 p-8 rounded-lg shadow-md md:space-y-3 space-y-2 h-auto">
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="w-full bg-gray-800 p-8 rounded-lg shadow-md md:space-y-3 space-y-2 h-auto"
+            >
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="block md:text-base font-medium text-gray-300 ">
+                      Username
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="w-full px-4 py-2 rounded-md bg-gray-900 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-primary-light focus:outline-none md:text-base"
+                        placeholder="Enter your name"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="block md:text-base font-medium text-gray-300 ">
+                      Email
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="w-full px-4 py-2 rounded-md bg-gray-900 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-primary-light focus:outline-none md:text-base"
+                        placeholder="Enter your email"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="block md:text-base font-medium text-gray-300 ">
+                      Password
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="w-full px-4 py-2 rounded-md bg-gray-900 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-primary-light focus:outline-none md:text-base"
+                        placeholder="Enter your password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="avatar"
+                render={({ field: { onChange, ref, name } }) => (
+                  <FormItem>
+                    <FormLabel className="block md:text-base font-medium text-gray-300 ">
+                      Username
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="file"
+                        name={name}
+                        ref={ref}
+                        accept={ACCEPTED_IMAGE_TYPES}
+                        onChange={(e) => {
+                          const files = e.target.files; // Access selected files
+                          onChange(files);
+                        }}
+                        className="w-full px-4 py-2 rounded-md file:text-white bg-gray-900 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-primary-light focus:outline-none md:text-base"
+                        placeholder="Upload your profile picture "
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="py-2 md:py-4">
+                <Button
+                  type="submit"
+                  className="w-full py-2 px-4 bg-primary-light hover:bg-primary-dark text-white rounded-md font-semibold focus:outline-none focus:ring-2 focus:ring-primary-light transition-all duration-200 ease-linear"
+                >
+                  {" "}
+                  Sign Up
+                </Button>
+              </div>
+            </form>
+          </Form>
+
+          {/* <form className="w-full bg-gray-800 p-8 rounded-lg shadow-md md:space-y-3 space-y-2 h-auto">
             <h2 className="text-2xl font-bold text-center text-white ">
               Sign Up
             </h2>
@@ -96,7 +224,7 @@ export default function SignupPage() {
                 Sign Up
               </button>
             </div>
-          </form>
+          </form> */}
         </div>
       </div>
     </div>
