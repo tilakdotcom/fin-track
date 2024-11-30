@@ -13,21 +13,44 @@ import {
 import { Input } from "@/components/ui/input";
 import { signupSchma } from "@/schemas/signupSchema";
 import { z } from "zod";
+import api from "@/lib/axiousInstance";
 
 export default function SignupPage() {
   const form = useForm<z.infer<typeof signupSchma>>({
     resolver: zodResolver(signupSchma),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
-      avatar: undefined,
-      name: "",
+      avatar: null,
     },
   });
-  const ACCEPTED_IMAGE_TYPES = ".jpg,.jpeg,.png,.webp";
 
-  function onSubmit(values: z.infer<typeof signupSchma>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof signupSchma>) {
+    //creating FORMDATA
+    const formData = new FormData();
+
+    formData.append("name", values.name);
+    formData.append("email", values.email);
+    formData.append("password", values.password);
+    // Append file fields
+    if (values.avatar) formData.append("avatar", values.avatar);
+
+    try {
+      const response = await api.post("/user/signup", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      //validation
+      if (response.status !== 201) {
+        throw new Error("Signup Failed");
+      }
+      console.log("User Signup Successful", response);
+    } catch (error) {
+      console.log("No avatar provided", error);
+      return;
+    }
   }
   return (
     <div className="lg:px-20 px-10 py-5">
@@ -48,6 +71,12 @@ export default function SignupPage() {
               onSubmit={form.handleSubmit(onSubmit)}
               className="w-full bg-gray-800 p-8 rounded-lg shadow-md md:space-y-3 space-y-2 h-auto"
             >
+              <h2 className="text-2xl font-bold text-center text-white ">
+                Sign Up
+              </h2>
+              <p className="text-center">
+                Create an account to access your income , expenses and more.
+              </p>
               <FormField
                 control={form.control}
                 name="name"
@@ -105,32 +134,30 @@ export default function SignupPage() {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="avatar"
-                render={({ field: { onChange, ref, name } }) => (
-                  <FormItem>
-                    <FormLabel className="block md:text-base font-medium text-gray-300 ">
-                      Username
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="file"
-                        name={name}
-                        ref={ref}
-                        accept={ACCEPTED_IMAGE_TYPES}
-                        onChange={(e) => {
-                          const files = e.target.files; // Access selected files
-                          onChange(files);
-                        }}
-                        className="w-full px-4 py-2 rounded-md file:text-white bg-gray-900 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-primary-light focus:outline-none md:text-base"
-                        placeholder="Upload your profile picture "
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+
+<FormField
+              control={form.control}
+              name="avatar"
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              render={({ field: { value, onChange, ...fieldProps } }) => (
+                <FormItem>
+                  <FormLabel>Avatar</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...fieldProps}
+                      type="file"
+                      className="w-full px-4 py-2 rounded-md file:text-white bg-gray-900 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-primary-light focus:outline-none md:text-base"
+                        placeholder="Upload your profile picture"
+                      required
+                      accept="image/*, application/pdf"
+                      onChange={(event) =>
+                        onChange(event.target.files && event.target.files[0] || null)
+                      }
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
               <div className="py-2 md:py-4">
                 <Button
                   type="submit"
