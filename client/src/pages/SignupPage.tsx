@@ -14,8 +14,15 @@ import { Input } from "@/components/ui/input";
 import { signupSchma } from "@/schemas/signupSchema";
 import { z } from "zod";
 import api from "@/lib/axiousInstance";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function SignupPage() {
+  const [loading, setLoading] = useState<boolean>(false);
+  const successToast = () => toast.success("Signup has been successfully");
+  //for error
+  const errorToast = () => toast.error("Signup Failed");
   const form = useForm<z.infer<typeof signupSchma>>({
     resolver: zodResolver(signupSchma),
     defaultValues: {
@@ -28,6 +35,7 @@ export default function SignupPage() {
 
   async function onSubmit(values: z.infer<typeof signupSchma>) {
     //creating FORMDATA
+    setLoading(true);
     const formData = new FormData();
 
     formData.append("name", values.name);
@@ -37,8 +45,6 @@ export default function SignupPage() {
     if (values.avatar) formData.append("avatar", values.avatar);
 
     try {
-
-      console.log("env",import.meta.env.BACKEND_URI);
       const response = await api.post("/user/signup", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -48,10 +54,14 @@ export default function SignupPage() {
       if (response.status !== 201) {
         throw new Error("Signup Failed");
       }
+      successToast();
       console.log("User Signup Successful", response);
     } catch (error) {
       console.log("Signup Failed", error);
+      errorToast();
       return;
+    } finally {
+      setLoading(false);
     }
   }
   return (
@@ -137,36 +147,42 @@ export default function SignupPage() {
                 )}
               />
 
-<FormField
-              control={form.control}
-              name="avatar"
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              render={({ field: { value, onChange, ...fieldProps } }) => (
-                <FormItem>
-                  <FormLabel>Avatar</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...fieldProps}
-                      type="file"
-                      className="w-full px-4 py-2 rounded-md file:text-white bg-gray-900 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-primary-light focus:outline-none md:text-base"
+              <FormField
+                control={form.control}
+                name="avatar"
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                render={({ field: { value, onChange, ...fieldProps } }) => (
+                  <FormItem>
+                    <FormLabel>Avatar</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...fieldProps}
+                        type="file"
+                        className="w-full px-4 py-2 rounded-md file:text-white bg-gray-900 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-primary-light focus:outline-none md:text-base"
                         placeholder="Upload your profile picture"
-                      required
-                      accept="image/*, application/pdf"
-                      onChange={(event) =>
-                        onChange(event.target.files && event.target.files[0] || null)
-                      }
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+                        required
+                        accept="image/*, application/pdf"
+                        onChange={(event) =>
+                          onChange(
+                            (event.target.files && event.target.files[0]) ||
+                              null
+                          )
+                        }
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
               <div className="py-2 md:py-4">
                 <Button
                   type="submit"
-                  className="w-full py-2 px-4 bg-primary-light hover:bg-primary-dark text-white rounded-md font-semibold focus:outline-none focus:ring-2 focus:ring-primary-light transition-all duration-200 ease-linear"
+                  disabled={loading}
+                  className={`w-full py-2 px-4 bg-primary-light hover:bg-primary-dark text-white rounded-md font-semibold focus:outline-none focus:ring-2 focus:ring-primary-light transition-all duration-200 ease-linear ${
+                    loading ? " cursor-not-allowed bg-green-400" : ""
+                  }`}
                 >
                   {" "}
-                  Sign Up
+                  {loading ? "Wait" : "Sign Up"}
                 </Button>
               </div>
             </form>
