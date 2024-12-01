@@ -19,6 +19,10 @@ const loginData = [
     label: "Income",
     href: "/income",
   },
+  {
+    label: "Add",
+    href: "/add",
+  },
 ];
 const NavBar = () => {
   const navigate = useNavigate();

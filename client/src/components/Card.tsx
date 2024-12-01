@@ -1,3 +1,4 @@
+import { FilePenLine, Trash2 } from "lucide-react";
 import React from "react";
 
 interface ExpenseCardProps {
@@ -16,7 +17,7 @@ const Card: React.FC<ExpenseCardProps> = ({
   type,
 }) => {
   return (
-    <div className="bg-gradient-to-br from-white to-gray-300 shadow-md rounded-xl overflow-hidden border border-gray-200 transform transition-transform duration-300 hover:scale-105 shadow-neutral-500">
+    <div className="relative bg-gradient-to-br from-white to-gray-300 shadow-md rounded-xl overflow-hidden border border-gray-200 transform transition-transform duration-300 hover:scale-105 shadow-neutral-500 ">
       <div className="p-5 space-y-2.5 md:space-y-4">
         {/* Date and Category */}
         <div className="flex justify-between items-center">
@@ -28,12 +29,12 @@ const Card: React.FC<ExpenseCardProps> = ({
             })}
           </div>
           {type === "expense" ? (
-             <span
-             className={`text-xs font-semibold px-3 py-1 rounded-full
+            <span
+              className={`text-xs font-semibold px-3 py-1 rounded-full
             bg-red-100 text-red-600`}
-           >
-             {category}
-           </span>
+            >
+              {category}
+            </span>
           ) : (
             <span
               className={`text-xs font-semibold px-3 py-1 rounded-full
@@ -74,6 +75,19 @@ const Card: React.FC<ExpenseCardProps> = ({
         `}
         ></div>
       )}
+
+      {/* icons */}
+
+      <div className="absolute bottom-6 md:bottom-10 z-10 right-4 flex flex-col gap-4">
+
+        <div className=" font-bold cursor-pointer">
+           <Trash2  className="text-rose-600 text-xl hover:text-red-700"/>
+        </div>
+        <div className="">
+        <FilePenLine className="text-blue-600 text-xl hover:text-blue-700 cursor-pointer" />
+        </div>
+       
+      </div>
     </div>
   );
 };
