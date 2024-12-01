@@ -1,6 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -11,27 +17,46 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { number, z } from "zod";
+import { z } from "zod";
 import api from "@/lib/axiousInstance";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useAppDispatch } from "@/store/reduxHooks";
 import { useNavigate } from "react-router-dom";
 import { AddIncomeAndExpeneSchema } from "@/schemas/AddIncomeAndExpenses";
+
+interface CategoryType {
+  _id: string;
+  name: string;
+}
 
 export default function AddIncomeAndExpene() {
   const router = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
-  const dispatch = useAppDispatch();
+  const [categories, setCategories] = useState<CategoryType[] | null>(null);
   const successToast = () => toast.success("Added successfully");
   //for error
   const errorToast = () => toast.error("Login Failed");
 
+  const fetchedCategory = async () => {
+    try {
+      const res = await api.get("/category");
+      if (!res) {
+        throw new Error("Error fetching category");
+      }
+      setCategories(res.data.data);
+    } catch (error) {
+      console.error("Error fetching category:", error);
+    }
+  };
+  useEffect(() => {
+    fetchedCategory();
+  }, []);
+
   const form = useForm<z.infer<typeof AddIncomeAndExpeneSchema>>({
     resolver: zodResolver(AddIncomeAndExpeneSchema),
     defaultValues: {
-      amount: undefined ,
+      amount: 0,
       categoryId: "",
       source: "",
     },
@@ -76,11 +101,27 @@ export default function AddIncomeAndExpene() {
                       Category
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        className="w-full px-4 py-2 rounded-md bg-gray-900 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-primary-light focus:outline-none md:text-base"
-                        placeholder="Enter your email"
-                        {...field}
-                      />
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a Category to store your Income OR expense" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {categories &&
+                            categories.map((category) => (
+                              <SelectItem
+                                key={category._id}
+                                value={category._id}
+                              >
+                                {category.name}
+                              </SelectItem>
+                            ))}
+                        </SelectContent>
+                      </Select>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
