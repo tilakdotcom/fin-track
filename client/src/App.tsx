@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import AddExpense from "./pages/Expense";
 import { useAppSelector } from "./store/reduxHooks";
 import Income from "./pages/IncomePage";
+import AddExAndIn from "./pages/AddExAndIn";
 
 export default function App() {
   const { currentUser } = useAppSelector((s) => s.persistedReducer.user);
@@ -20,6 +21,7 @@ export default function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/expense" element={<AddExpense />} />
             <Route path="/income" element={<Income />} />
+            <Route path="/add" element={<AddExAndIn />} />
           </>
         ) : (
           <>
