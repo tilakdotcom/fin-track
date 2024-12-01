@@ -4,7 +4,7 @@ import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import NavBar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
-import AddExpense from "./pages/AddExpense";
+import AddExpense from "./pages/Expense";
 import { useAppSelector } from "./store/reduxHooks";
 import Income from "./pages/IncomePage";
 
