@@ -28,10 +28,6 @@ const NavBar = () => {
   //i'll fixed this error soon but this not bothering so leave for now
   const user = currentUser?.user;
 
-
-  console.log("bhai corrent user", currentUser)
-  console.log("bhai user", user)
-  //for error
   const errorToast = () => toast.error("Login Failed");
 
   const handleLogout = async () => {
