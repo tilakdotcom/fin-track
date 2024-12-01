@@ -6,6 +6,7 @@ import NavBar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import AddExpense from "./pages/AddExpense";
 import { useAppSelector } from "./store/reduxHooks";
+import Income from "./pages/IncomePage";
 
 export default function App() {
   const { currentUser } = useAppSelector((s) => s.persistedReducer.user);
@@ -18,7 +19,7 @@ export default function App() {
           <>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/expense" element={<AddExpense />} />
-            <Route path="/income" element={<AddExpense />} />
+            <Route path="/income" element={<Income />} />
           </>
         ) : (
           <>
