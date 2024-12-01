@@ -14,7 +14,6 @@ export default function App() {
       {/* Navigation */}
       <NavBar />
       <Routes>
-        
         {currentUser ? (
           <>
             <Route path="/dashboard" element={<Dashboard />} />

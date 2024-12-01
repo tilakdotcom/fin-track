@@ -23,8 +23,14 @@ const loginData = [
 const NavBar = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
-  const { currentUser } = useAppSelector((s) => s.persistedReducer.user);
+  const { currentUser } = useAppSelector((s) => s.persistedReducer?.user);
   const dispatch = useAppDispatch();
+  //i'll fixed this error soon but this not bothering so leave for now
+  const user = currentUser?.user;
+
+
+  console.log("bhai corrent user", currentUser)
+  console.log("bhai user", user)
   //for error
   const errorToast = () => toast.error("Login Failed");
 
@@ -48,6 +54,7 @@ const NavBar = () => {
     }
   };
   const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <header className="bg-transparent shadow-md h-[70px] flex sm:px-8 px-6 w-screen">
       <nav className=" container flex items-center justify-between">
@@ -56,7 +63,6 @@ const NavBar = () => {
             FinTrack
           </Link>
         </div>
-
         {currentUser ? (
           <div className=" hidden md:flex items-center justify-between gap-x-3.5">
             {loginData.map((item, index) => (
@@ -84,10 +90,20 @@ const NavBar = () => {
             >
               Logout <LogOut className="text-red-700 " />
             </button>
-            <div className="w-10 h-10 rounded-full bg-primary-dark overflow-hidden flex items-center justify-center ">
-              {" "}
-              T
-            </div>
+            {user ? (
+              <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center ">
+                <img
+                  src={user.avatarUrl}
+                  alt={user.name}
+                  className=" w-full h-full object-contain"
+                />
+              </div>
+            ) : (
+              <div className="w-10 h-10 rounded-full bg-primary-dark overflow-hidden flex items-center justify-center ">
+                {" "}
+                U
+              </div>
+            )}
           </div>
         ) : (
           <div className="hidden md:flex items-center justify-between gap-x-3.5">
