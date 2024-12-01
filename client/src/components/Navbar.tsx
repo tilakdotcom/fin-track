@@ -25,7 +25,6 @@ const NavBar = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { currentUser } = useAppSelector((s) => s.persistedReducer.user);
   const dispatch = useAppDispatch();
-  const successToast = () => toast.success("Login has been successfully");
   //for error
   const errorToast = () => toast.error("Login Failed");
 
