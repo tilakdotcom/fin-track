@@ -1,4 +1,4 @@
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid } from "recharts"
 
 import {
   Card,
@@ -16,11 +16,11 @@ import {
 // Sample data for income and expenses
 const chartData = [
   { month: "January", income: 12000, expenses: 10000 },
-  { month: "February", income: 15000, expenses: 13000 },
-  { month: "March", income: 14000, expenses: 12000 },
-  { month: "April", income: 18000, expenses: 15000 },
-  { month: "May", income: 20000, expenses: 18000 },
-  { month: "June", income: 17000, expenses: 16000 },
+  // { month: "February", income: 15000, expenses: 13000 },
+  // { month: "March", income: 14000, expenses: 12000 },
+  // { month: "April", income: 18000, expenses: 15000 },
+  // { month: "May", income: 20000, expenses: 18000 },
+  // { month: "June", income: 17000, expenses: 16000 },
 ]
 
 const chartConfig = {
@@ -47,13 +47,13 @@ export default function IncomeExpenseChart() {
         <ChartContainer config={chartConfig}>
           <BarChart data={chartData}>
             <CartesianGrid vertical={false} />
-            <XAxis
+            {/* <XAxis
               dataKey="month"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
               tickFormatter={(value) => value.slice(0, 3)}
-            />
+            /> */}
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="dashed" />}
