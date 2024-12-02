@@ -91,6 +91,11 @@ const login = asyncHandler(async (req: Request, res: Response) => {
     { new: true }
   ).select("-password -refreshToken");
 
+  //validate
+  if (!userRefreshToken) {
+    throw new ApiError(500, "Failed to generate refresh token")
+  }
+
   const options = {
     httpOnly: true,
     secure: true,
@@ -104,7 +109,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
       new ApiResponse({
         statusCode: 200,
         message: "Logged in successfully",
-        data: { user },
+        data: { user :userRefreshToken },
       })
     );
 });

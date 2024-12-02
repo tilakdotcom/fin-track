@@ -2,6 +2,7 @@ import Expense from "@/models/expense.model";
 import { ApiError } from "@/utils/ApiError";
 import { ApiResponse } from "@/utils/ApiResponse";
 import { asyncHandler } from "@/utils/asyncHandler";
+import { generateRandomColor } from "@/utils/generateRandomColor";
 import { Request, Response } from "express";
 
 const addExpense = asyncHandler(async (req: Request, res: Response) => {
@@ -31,6 +32,7 @@ const addExpense = asyncHandler(async (req: Request, res: Response) => {
       "Expense with the same categoryId and title already exists"
     );
   }
+  const color = generateRandomColor()
   //create expense
   const newExpense = new Expense({
     userId,
@@ -38,6 +40,7 @@ const addExpense = asyncHandler(async (req: Request, res: Response) => {
     title: title,
     amount: amount,
     description: description || undefined,
+    color
   });
   const savedExpense = await newExpense.save({ validateBeforeSave: false });
 

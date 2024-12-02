@@ -6,6 +6,7 @@ interface ExpenseType extends Document {
   title: string;
   amount: number;
   description: string;
+  color:string;
 }
 
 const expenseSchema: Schema<ExpenseType> = new Schema({
@@ -32,6 +33,11 @@ const expenseSchema: Schema<ExpenseType> = new Schema({
   },
   description: {
     type: String,
+  },
+  color: {
+    type: String,
+    default: "#3498db", // Default color for expenses
+    required:true,
   },
 },{timestamps:true});
 

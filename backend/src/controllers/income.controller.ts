@@ -2,6 +2,7 @@ import Income from "@/models/income.model";
 import { ApiError } from "@/utils/ApiError";
 import { ApiResponse } from "@/utils/ApiResponse";
 import { asyncHandler } from "@/utils/asyncHandler";
+import { generateRandomColor } from "@/utils/generateRandomColor";
 import { Request, Response } from "express";
 
 const addIncome = asyncHandler(async (req: Request, res: Response) => {
@@ -25,19 +26,24 @@ const addIncome = asyncHandler(async (req: Request, res: Response) => {
     source: source,
   });
   //validation
+
+
+
   if (income) {
     throw new ApiError(
       400,
       "income with the same categoryId and source already exists"
     );
   }
-  //create expense
+  //create expense  
+  const color = generateRandomColor()
   const newIncome = new Income({
     userId,
     categoryId,
     source,
     amount,
     description: description || undefined,
+    color
   });
   const savedIncome = await newIncome.save({ validateBeforeSave: false });
 
