@@ -17,7 +17,7 @@ const PieCircle: React.FC<{ expenseData: ExpenseEnumerable[] | undefined }> = ({
         <div className="text-sm text-gray-500">
           View your expenses in a circle graph
         </div>
-        <div className="flex flex-row gap-2 justify-center flex-wrap">
+        <div className="flex flex-row gap-2 justify-center flex-wrap  overflow-hidden">
           {expenseData &&
             expenseData.map((data, index) => (
               <div key={index} className="flex flex-row items-center space-x-2">
@@ -25,7 +25,7 @@ const PieCircle: React.FC<{ expenseData: ExpenseEnumerable[] | undefined }> = ({
                   className="w-3 h-3 rounded-full"
                   style={{ backgroundColor: data.color }}
                 ></span>
-                <span className="text-sm font-medium">{data.category}</span>
+                <span className="text-sm font-medium capitalize">{data.title}</span>
               </div>
             ))}
         </div>
@@ -51,22 +51,6 @@ const PieCircle: React.FC<{ expenseData: ExpenseEnumerable[] | undefined }> = ({
                 <Cell key={`cell-${index}`} fill={entry.color} className="" />
               ))}
             </Pie>
-
-            <div className="flex flex-row gap-2 justify-center flex-wrap">
-              {expenseData &&
-                expenseData.map((data, index) => (
-                  <div
-                    key={index}
-                    className="flex flex-row items-center space-x-2"
-                  >
-                    <span
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: data.color }}
-                    ></span>
-                    <span className="text-sm font-medium">{data.category}</span>
-                  </div>
-                ))}
-            </div>
           </PieChart>
         </ChartContainer>
       </CardContent>
