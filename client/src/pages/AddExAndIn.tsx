@@ -35,8 +35,6 @@ interface CategoryType {
 export default function AddIncomeAndExpene() {
   const router = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
-  const successToast = () => toast.success("Added successfully");
-  const errorToast = () => toast.error("Login Failed");
   const [categories, setCategories] = useState<CategoryType[] | null>(null);
   const [catFilter, setCatFilter] = useState<CategoryType[] | null>(null);
   const [catType, setCatType] = useState<string | null>(null);
@@ -85,9 +83,47 @@ export default function AddIncomeAndExpene() {
   });
 
   async function onSubmit(values: z.infer<typeof AddIncomeAndExpeneSchema>) {
-    //creating FORMDATA
     setLoading(true);
-    console.log(values);
+    if (catType === "expense") {
+      try {
+        const res = await api.post("/expense/add", {
+          amount: values.amount,
+          categoryId: values.categoryId,
+          title: values.source,
+        });
+        if (!res) {
+          toast.error("Failed to add Expense");
+          throw new Error("Failed to add Expense");
+        }
+        toast.success("Expense has been added successfully");
+      } catch (error) {
+        toast.error("Failed to add expense");
+        throw new Error("Failed to add expense");
+      } finally {
+        setLoading(false);
+        form.reset();
+        router("/expense")
+      }
+    } else if (catType === "income") {
+      try {
+        const res = await api.post("/income/add", values);
+        if (!res) {
+          toast.error("Failed to add income");
+          throw new Error("Failed to add income");
+        }
+        toast.success("Income has been added successfully");
+      } catch (error) {
+        toast.error("Failed to add Income");
+        throw new Error("Failed to add Income");
+      } finally {
+        setLoading(false);
+        form.reset();
+        router("/income")
+      }
+    } else {
+      toast.error("invalid request");
+      throw new Error("invalid request");
+    }
   }
   return (
     <div className="lg:px-20 px-10 py-5">
