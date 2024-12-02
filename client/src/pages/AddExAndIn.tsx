@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
@@ -30,6 +31,17 @@ interface CategoryType {
   name: string;
 }
 
+const incomeAndExpenseData =[
+  {
+    name: "Income",
+    type: "income",
+  },
+  {
+    name: "Expense",
+    type: "expense",
+  },
+]
+
 export default function AddIncomeAndExpene() {
   const router = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
@@ -59,6 +71,7 @@ export default function AddIncomeAndExpene() {
       amount: 0,
       categoryId: "",
       source: "",
+      type: null,
     },
   });
 
@@ -92,6 +105,40 @@ export default function AddIncomeAndExpene() {
               <p className="text-center">
                 Add income and expenses to track your dashboard.
               </p>
+              <FormField
+                control={form.control}
+                name="type"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="block md:text-base font-medium text-gray-300 ">
+                      Select Expense OR Income
+                    </FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select Income OR expense" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className=" overflow-y-scroll">
+                          {
+                            incomeAndExpenseData.map((category, i) => (
+                              <SelectItem
+                                key={i}
+                                value={category.type}
+                              >
+                                {category.name}
+                              </SelectItem>
+                            ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="categoryId"

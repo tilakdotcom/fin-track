@@ -8,6 +8,12 @@
   box-sizing: border-box;
 }
 
+/* for shadcn select */
+html body[data-scroll-locked] {
+  overflow: visible !important;
+  margin-right: 0 !important;
+} 
+
 html,
 body,
 #root,
@@ -22,7 +28,7 @@ body,
 
 /* custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {

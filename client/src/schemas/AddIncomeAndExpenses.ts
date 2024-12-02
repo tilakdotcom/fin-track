@@ -18,8 +18,11 @@ const amount = z
       .int({ message: "Value must be an integer" })
   )
 
+  const type = z.enum(["income", "expense"] ,  { message: "Type must be 'income' or 'expense'" }).nullable(); 
+
 export const AddIncomeAndExpeneSchema = z.object({
   categoryId: categoryId,
   source: source,
   amount: amount,
+  type : type
 });
