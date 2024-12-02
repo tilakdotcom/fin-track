@@ -46,6 +46,7 @@ const Dashboard: React.FC = () => {
     incomeData?.reduce((acc, item) => acc + item.amount, 0) || 0;
   const totalExpense = data?.reduce((acc, item) => acc + item.amount, 0) || 0;
   const netProfit = totalIncome - totalExpense;
+
   //useEffects
   useEffect(() => {
     fetchIncomeItem();
@@ -95,10 +96,14 @@ const Dashboard: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-3 gap-x-6">
           {/* Total Balance */}
           {/* Line Chart */}
-          <LineChart />
+          <LineChart
+            expenses={totalExpense.toFixed()}
+            incomes={totalIncome.toFixed()}
+          />
 
           {/* Bar Chart */}
-          <IncomeExpenseChart />
+          <IncomeExpenseChart  expenses={totalExpense.toFixed()}
+            incomes={totalIncome.toFixed()}/>
 
           {/* Doughnut Chart */}
           <PieCircle expenseData={data} />

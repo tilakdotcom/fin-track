@@ -14,14 +14,7 @@ import {
 } from "@/components/ui/chart"
 
 // Sample data for income and expenses
-const chartData = [
-  { month: "January", income: 12000, expenses: 10000 },
-  // { month: "February", income: 15000, expenses: 13000 },
-  // { month: "March", income: 14000, expenses: 12000 },
-  // { month: "April", income: 18000, expenses: 15000 },
-  // { month: "May", income: 20000, expenses: 18000 },
-  // { month: "June", income: 17000, expenses: 16000 },
-]
+
 
 const chartConfig = {
   income: {
@@ -34,7 +27,13 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export default function IncomeExpenseChart() {
+export default function IncomeExpenseChart({incomes,expenses}:{incomes: string, expenses: string,}) {
+  const chartData = [
+    {  income: incomes, expenses: expenses },
+    {  income: incomes, expenses: expenses },
+    {  income: incomes, expenses: expenses },
+    
+  ]
   return (
     <Card>
       <CardHeader className="text-center text-xl font-semibold">
