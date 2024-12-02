@@ -11,6 +11,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { dataState } from "./slices/backEndData";
 
 
 const persistConfig = {
@@ -21,6 +22,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   user: userSlice,
+  data: dataState
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

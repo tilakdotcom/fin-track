@@ -1,85 +1,72 @@
-import { useState, useEffect } from "react";
-import { LabelList, Pie, PieChart } from "recharts";
+import { Cell, Pie, PieChart } from "recharts";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { ExpenseEnumerable } from "../types/types";
 
-const defaultChartConfig = {
-  amount: { label: "Amount" },
-  groceries: { label: "Groceries", color: "hsl(var(--chart-1))" },
-  rent: { label: "Rent", color: "hsl(var(--chart-2))" },
-  utilities: { label: "Utilities", color: "hsl(var(--chart-3))" },
-  entertainment: { label: "Entertainment", color: "hsl(var(--chart-4))" },
-  other: { label: "Other", color: "hsl(var(--chart-5))" },
-} satisfies ChartConfig;
-
-const sampleData = [
-  { category: "Groceries", amount: 500, fill: "hsl(var(--chart-1))" },
-  { category: "Rent", amount: 1500, fill: "hsl(var(--chart-2))" },
-  { category: "Utilities", amount: 300, fill: "hsl(var(--chart-3))" },
-  { category: "Entertainment", amount: 200, fill: "hsl(var(--chart-4))" },
-  { category: "Other", amount: 100, fill: "hsl(var(--chart-5))" },
-];
-
-const PieCircle: React.FC<{ title?: string }> = ({ title = "Expense Breakdown" }) => {
-  const [chartData, setChartData] = useState(sampleData);
-
-  useEffect(() => {
-    // Simulating data fetch
-    const loadData = () => {
-      setChartData(sampleData); // Replace this with your dynamic fetch logic
-    };
-    loadData();
-  }, []);
-
+const PieCircle: React.FC<{ expenseData: ExpenseEnumerable[] | undefined }> = ({
+  expenseData,
+}) => {
   return (
     <Card className="flex flex-col bg-white shadow-lg p-6 rounded-lg ">
       <CardHeader className="text-xl font-semibold text-center">
-        <CardTitle>{title}</CardTitle>
+        <CardTitle>Expense Breakdown</CardTitle>
         <div className="text-sm text-gray-500">
           View your expenses in a circle graph
         </div>
         <div className="flex flex-row gap-2 justify-center flex-wrap">
-    {sampleData.map((data, index) => (
-      <div key={index} className="flex flex-row items-center space-x-2">
-        <span
-          className="w-3 h-3 rounded-full"
-          style={{ backgroundColor: data.fill }}
-        ></span>
-        <span className="text-sm font-medium">{data.category}</span>
-      </div>
-    ))}
-  </div>
+          {expenseData &&
+            expenseData.map((data, index) => (
+              <div key={index} className="flex flex-row items-center space-x-2">
+                <span
+                  className="w-3 h-3 rounded-full"
+                  style={{ backgroundColor: data.color }}
+                ></span>
+                <span className="text-sm font-medium">{data.category}</span>
+              </div>
+            ))}
+        </div>
       </CardHeader>
-      <CardContent className="flex-1 pb-0">
+      <CardContent className="flex-1 pb-0 text-black">
         <ChartContainer
-          config={defaultChartConfig}
+          config={{}}
           className=" h-full w-full [&_.recharts-text]:fill-background"
         >
-          <PieChart>
+          <PieChart className="">
             <ChartTooltip
               content={<ChartTooltipContent nameKey="amount" hideLabel />}
             />
-            <Pie data={chartData} dataKey="amount" nameKey="category" fill-Key="fill">
-              <LabelList
-                dataKey="category"
-                className="fill-background"
-                stroke="none"
-                fontSize={12}
-                formatter={(value: keyof typeof defaultChartConfig) =>
-                  defaultChartConfig[value]?.label
-                }
-              />
+            <Pie
+              data={expenseData}
+              dataKey="amount"
+              nameKey="category"
+              outerRadius={80}
+              label
+              className="text-black"
+            >
+              {expenseData?.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.color} className="" />
+              ))}
             </Pie>
+
+            <div className="flex flex-row gap-2 justify-center flex-wrap">
+              {expenseData &&
+                expenseData.map((data, index) => (
+                  <div
+                    key={index}
+                    className="flex flex-row items-center space-x-2"
+                  >
+                    <span
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: data.color }}
+                    ></span>
+                    <span className="text-sm font-medium">{data.category}</span>
+                  </div>
+                ))}
+            </div>
           </PieChart>
         </ChartContainer>
       </CardContent>

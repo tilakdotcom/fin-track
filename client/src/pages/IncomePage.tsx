@@ -1,15 +1,10 @@
 import Card from "@/components/Card";
+import { IncomeEnumerable } from "@/components/types/types";
 import api from "@/lib/axiousInstance";
 import React, { useEffect, useState } from "react";
-  interface IEnumerable {
-    source: string;
-    amount: number;
-    createdAt: string;
-    category: string;
-    type: string;
-  }
+
 const Income: React.FC = () => {
-  const [data , setData] = useState<IEnumerable[] | null>(null)
+  const [data , setData] = useState<IncomeEnumerable[] | null>(null)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading,setLoading] = useState<boolean>(false)
 
@@ -35,6 +30,8 @@ const Income: React.FC = () => {
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <h1 className="text-2xl font-bold text-gray-800 text-center py-3 md:py-5">All Expenses Tracker</h1>
+      {loading && <p className="text-black flex justify-center items-center h-40 font-bold md:text-4xl text-2xl">Loading...</p>}
+      {!loading && data && data?.length < 0 && <p className="text-black flex justify-center items-center h-40 font-bold md:text-4xl text-2xl">Add Income to SEE...</p>}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
         {data && data.map((expense, index) => (
           <Card
