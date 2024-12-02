@@ -29,26 +29,17 @@ import { AddIncomeAndExpeneSchema } from "@/schemas/AddIncomeAndExpenses";
 interface CategoryType {
   _id: string;
   name: string;
+  type: string;
 }
-
-const incomeAndExpenseData =[
-  {
-    name: "Income",
-    type: "income",
-  },
-  {
-    name: "Expense",
-    type: "expense",
-  },
-]
 
 export default function AddIncomeAndExpene() {
   const router = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
-  const [categories, setCategories] = useState<CategoryType[] | null>(null);
   const successToast = () => toast.success("Added successfully");
-  //for error
   const errorToast = () => toast.error("Login Failed");
+  const [categories, setCategories] = useState<CategoryType[] | null>(null);
+  const [catFilter, setCatFilter] = useState<CategoryType[] | null>(null);
+  const [catType, setCatType] = useState<string | null>(null);
 
   const fetchedCategory = async () => {
     try {
@@ -61,6 +52,24 @@ export default function AddIncomeAndExpene() {
       console.error("Error fetching category:", error);
     }
   };
+
+  //use effects
+  useEffect(() => {
+    if (catType === "income") {
+      setCatFilter(
+        categories &&
+          categories?.filter((category) => category.type === "income")
+      );
+    } else if (catType === "expense") {
+      setCatFilter(
+        categories &&
+          categories?.filter((category) => category.type === "expense")
+      );
+    } else {
+      setCatFilter(categories);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [catType, catFilter?.length, categories?.length]);
   useEffect(() => {
     fetchedCategory();
   }, []);
@@ -115,7 +124,10 @@ export default function AddIncomeAndExpene() {
                     </FormLabel>
                     <FormControl>
                       <Select
-                        onValueChange={field.onChange}
+                        onValueChange={(value) => {
+                          setCatType(value);
+                          field.onChange(value);
+                        }}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -123,15 +135,11 @@ export default function AddIncomeAndExpene() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent className=" overflow-y-scroll">
-                          {
-                            incomeAndExpenseData.map((category, i) => (
-                              <SelectItem
-                                key={i}
-                                value={category.type}
-                              >
-                                {category.name}
-                              </SelectItem>
-                            ))}
+                          {incomeAndExpenseData.map((category, i) => (
+                            <SelectItem key={i} value={category.type}>
+                              {category.name}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </FormControl>
@@ -158,8 +166,8 @@ export default function AddIncomeAndExpene() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {categories &&
-                            categories.map((category) => (
+                          {catFilter &&
+                            catFilter.map((category) => (
                               <SelectItem
                                 key={category._id}
                                 value={category._id}
@@ -234,3 +242,14 @@ export default function AddIncomeAndExpene() {
     </div>
   );
 }
+
+const incomeAndExpenseData = [
+  {
+    name: "Income",
+    type: "income",
+  },
+  {
+    name: "Expense",
+    type: "expense",
+  },
+];
