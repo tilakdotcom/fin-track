@@ -37,8 +37,6 @@ const verifyJWT = asyncHandler(
         process.env.ACCESS_TOKEN_SECRET
       );
 
-      console.log("decode token : ", token);
-
       const user = await User.findById(decodeToken?.id).select(
         "-password -refreshToken"
       );
