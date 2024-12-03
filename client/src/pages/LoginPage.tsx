@@ -67,6 +67,8 @@ export default function LoginPage() {
             src="/login.svg"
             alt="Signup Illustration"
             className="w-auto h-auto aspect-square"
+              draggable="false"
+            unselectable="on"
           />
         </div>
 

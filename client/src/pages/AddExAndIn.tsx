@@ -131,6 +131,8 @@ export default function AddIncomeAndExpene() {
         {/* Left section with image */}
         <div className="flex justify-center items-center">
           <img
+            draggable="false"
+            unselectable="on"
             src="/incomeAndExpense.svg"
             alt="upload income and expense Illustration"
             className="w-auto h-auto aspect-square"

@@ -73,6 +73,8 @@ export default function SignupPage() {
             src="/signup.svg"
             alt="Signup Illustration"
             className="w-auto h-auto aspect-square"
+              draggable="false"
+            unselectable="on"
           />
         </div>
 

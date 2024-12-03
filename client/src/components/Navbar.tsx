@@ -93,6 +93,8 @@ const NavBar = () => {
             {user ? (
               <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center ">
                 <img
+                  draggable="false"
+                  unselectable="on"
                   src={user.avatarUrl}
                   alt={user.name}
                   className=" w-full h-full object-contain"
