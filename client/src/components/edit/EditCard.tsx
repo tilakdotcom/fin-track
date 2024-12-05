@@ -61,7 +61,10 @@ export function EditCard({ Cardamount, cardId, catType, title }: EditType) {
       }
     } else if (catType === "income") {
       try {
-        const res = await api.put(`/income/${cardId}`, values);
+        const res = await api.put(`/income/${cardId}`, {
+          amount: values.amount,
+          source: values.title,
+        });
         if (!res) {
           toast.error("Failed to update income");
           throw new Error("Failed to update income");
@@ -109,7 +112,7 @@ export function EditCard({ Cardamount, cardId, catType, title }: EditType) {
                     </FormLabel>
                     <FormControl>
                       <Input
-                        className="w-full px-4 py-2 rounded-md bg-gray-900 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-primary-light focus:outline-none md:text-base"
+                        className="w-full px-4 py-2 rounded-md bg-gray-900 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-primary-light focus:outline-none md:text-base select-none"
                         placeholder="Enter your Amount"
                         {...field}
                         value={Cardamount || 0}

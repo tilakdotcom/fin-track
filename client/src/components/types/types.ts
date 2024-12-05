@@ -4,6 +4,7 @@ export interface ChartData {
 }
 
 export interface ExpenseEnumerable{
+  _id: string,
   title: string;
   amount: number;
   createdAt: string;
@@ -13,10 +14,20 @@ export interface ExpenseEnumerable{
 }
 
 export interface IncomeEnumerable {
+  _id: string,
   source: string;
   amount: number;
   createdAt: string;
   category: string;
   type: string;
   color: string;
+}
+
+export interface CardProps {
+  id: string;
+  type: string;
+  title: string;
+  amount: number;
+  date: string; // Format: YYYY-MM-DD
+  category: string;
 }

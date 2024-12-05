@@ -36,6 +36,7 @@ const AddExpense: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
         {data && data.map((expense, index) => (
           <Card
+          id={expense._id}
             key={index}
             title={expense.title}
             amount={expense.amount}

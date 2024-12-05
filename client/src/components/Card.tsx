@@ -1,16 +1,11 @@
 import {  Trash2 } from "lucide-react";
 import React from "react";
 import { EditCard } from "./edit/EditCard";
+import { CardProps } from "./types/types";
 
-interface ExpenseCardProps {
-  type: string;
-  title: string;
-  amount: number;
-  date: string; // Format: YYYY-MM-DD
-  category: string;
-}
 
-const Card: React.FC<ExpenseCardProps> = ({
+const Card: React.FC<CardProps> = ({
+  id,
   title,
   amount,
   date,
@@ -84,7 +79,7 @@ const Card: React.FC<ExpenseCardProps> = ({
         <Trash2 className="text-rose-500 text-xl bg-red-100"  />
         </div>
         <div className="">
-        <EditCard  />
+        <EditCard cardId={id}  Cardamount={amount} title={title} key={id} catType={type} />
          
         </div>
       </div>
