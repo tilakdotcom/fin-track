@@ -1,4 +1,4 @@
-import { FilePenLine, Trash2 } from "lucide-react";
+import {  Trash2 } from "lucide-react";
 import React from "react";
 import { EditCard } from "./edit/EditCard";
 
@@ -81,10 +81,11 @@ const Card: React.FC<ExpenseCardProps> = ({
 
       <div className="absolute bottom-6 md:bottom-10 z-10 right-4 flex flex-col gap-4">
         <div className=" font-bold cursor-pointer ">
-          <EditCard />
+        <Trash2 className="text-rose-500 text-xl bg-red-100"  />
         </div>
         <div className="">
-          <FilePenLine className="text-blue-600 text-xl hover:text-blue-700 cursor-pointer" />
+        <EditCard  />
+         
         </div>
       </div>
     </div>
