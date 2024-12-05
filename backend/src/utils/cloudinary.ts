@@ -1,29 +1,24 @@
-import dotEnv from "dotenv";
-dotEnv.config({
-    path: "./.env"
-})
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 
 if (
-  !process.env.CLOUDINARY_API_NAME ||
-  !process.env.CLOUDINARY_API_KEY ||
-  !process.env.CLOUDINARY_API_SECRET
+  !process.env.ClOUDINARY_API_NAME ||
+  !process.env.ClOUDINARY_API_KEY ||
+  !process.env.ClOUDINARY_API_SECRET
 ) {
   console.error("Missing required environment variables for Cloudinary");
   console.log({
-    cloud_name: process.env.ClOUDINARY_API_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-  url: process.env.PORT,
+  cloud_name: process.env.ClOUDINARY_API_NAME,
+  api_key: process.env.ClOUDINARY_API_KEY,
+  api_secret: process.env.ClOUDINARY_API_SECRET,
   })
   process.exit(1); // learn  about it
 }
 // Configuration
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_API_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: process.env.ClOUDINARY_API_NAME,
+  api_key: process.env.ClOUDINARY_API_KEY,
+  api_secret: process.env.ClOUDINARY_API_SECRET,
 });
 
 //upload image to cloudinary

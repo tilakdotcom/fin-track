@@ -1,10 +1,9 @@
-import dotEnv from "dotenv";
 import { app } from "./app";
 import dbConnect from "./db/dbConnect";
 
-dotEnv.config({
-    path: "./.env"
-})
+import dotEnv from "dotenv";
+dotEnv.config({ path: "./.env" });
+
 
 const port = process.env.PORT || 5000
 
