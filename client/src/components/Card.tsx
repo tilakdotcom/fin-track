@@ -1,5 +1,6 @@
 import { FilePenLine, Trash2 } from "lucide-react";
 import React from "react";
+import { EditCard } from "./edit/EditCard";
 
 interface ExpenseCardProps {
   type: string;
@@ -79,14 +80,12 @@ const Card: React.FC<ExpenseCardProps> = ({
       {/* icons */}
 
       <div className="absolute bottom-6 md:bottom-10 z-10 right-4 flex flex-col gap-4">
-
-        <div className=" font-bold cursor-pointer">
-           <Trash2  className="text-rose-600 text-xl hover:text-red-700"/>
+        <div className=" font-bold cursor-pointer ">
+          <EditCard />
         </div>
         <div className="">
-        <FilePenLine className="text-blue-600 text-xl hover:text-blue-700 cursor-pointer" />
+          <FilePenLine className="text-blue-600 text-xl hover:text-blue-700 cursor-pointer" />
         </div>
-       
       </div>
     </div>
   );

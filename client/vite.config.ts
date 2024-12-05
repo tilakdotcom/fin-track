@@ -12,6 +12,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
+        // target: 'https://online-store-omnm.onrender.com',
         target: 'http://localhost:5000',
         changeOrigin: true,
         secure: false,
