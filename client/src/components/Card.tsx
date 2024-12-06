@@ -31,14 +31,14 @@ const Card: React.FC<CartType> = ({
               className={`text-xs font-semibold px-3 py-1 rounded-full
             bg-red-100 text-red-600`}
             >
-              {category ? category : "Expense"}
+              {category.name ? category.name : "Expense"}
             </span>
           ) : (
             <span
               className={`text-xs font-semibold px-3 py-1 rounded-full
              bg-green-100 text-green-600`}
             >
-              {category ? category : "Income"}
+              {category.name ? category.name : "Income"}
             </span>
           )}
         </div>
