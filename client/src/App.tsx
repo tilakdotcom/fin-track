@@ -8,6 +8,7 @@ import AddExpense from "./pages/Expense";
 import { useAppSelector } from "./store/reduxHooks";
 import Income from "./pages/IncomePage";
 import AddExAndIn from "./pages/AddExAndIn";
+import Footer from "./components/Footer";
 
 export default function App() {
   const { currentUser } = useAppSelector((s) => s.persistedReducer?.user);
@@ -33,6 +34,8 @@ export default function App() {
           </>
         )}
       </Routes>
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
