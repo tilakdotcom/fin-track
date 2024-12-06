@@ -4,6 +4,7 @@ import { ApiResponse } from "@/utils/ApiResponse";
 import { asyncHandler } from "@/utils/asyncHandler";
 import { generateRandomColor } from "@/utils/generateRandomColor";
 import { Request, Response } from "express";
+import mongoose from "mongoose";
 
 const addExpense = asyncHandler(async (req: Request, res: Response) => {
   const { categoryId, title, amount, description } = req.body;
@@ -32,7 +33,7 @@ const addExpense = asyncHandler(async (req: Request, res: Response) => {
       "Expense with the same categoryId and title already exists"
     );
   }
-  const color = generateRandomColor()
+  const color = generateRandomColor();
   //create expense
   const newExpense = new Expense({
     userId,
@@ -40,7 +41,7 @@ const addExpense = asyncHandler(async (req: Request, res: Response) => {
     title: title,
     amount: amount,
     description: description || undefined,
-    color
+    color,
   });
   const savedExpense = await newExpense.save({ validateBeforeSave: false });
 
@@ -60,7 +61,38 @@ const getAllExpenses = asyncHandler(async (req: Request, res: Response) => {
     throw new ApiError(401, "User not authenticated");
   }
   //find expenses by user id
-  const expenses = await Expense.find({ userId: userId });
+  const expenses = await Expense.aggregate([
+    {
+      $match: {
+        userId: new mongoose.Types.ObjectId(userId),
+      },
+    },
+    {
+      $lookup: {
+        from: "categories",
+        localField: "categoryId",
+        foreignField: "_id",
+        as: "category",
+        pipeline: [
+          {
+            $project: {
+              name: 1,
+              _id: 1,
+              type: 1,
+            },
+          },
+        ],
+      },
+    },
+    { $sort: { createdAt: -1 } },
+    {
+      $addFields: {
+        category: {
+          $arrayElemAt: ["$category",0]
+        },
+      },
+    },
+  ]);
   if (!expenses) {
     throw new ApiError(404, "No expenses found for the user");
   }
@@ -75,7 +107,7 @@ const getAllExpenses = asyncHandler(async (req: Request, res: Response) => {
 
 const updateExpense = asyncHandler(async (req: Request, res: Response) => {
   const { title, amount, description } = req.body;
-  const {expenseId} = req.params;
+  const { expenseId } = req.params;
   //validation
   if (!expenseId) {
     throw new ApiError(400, "Please provide an expense id");
@@ -105,7 +137,7 @@ const updateExpense = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const removeExpense = asyncHandler(async (req: Request, res: Response) => {
-  const {expenseId} = req.params;
+  const { expenseId } = req.params;
   //validation
   if (!expenseId) {
     throw new ApiError(400, "Please provide an expense id");
@@ -121,6 +153,5 @@ const removeExpense = asyncHandler(async (req: Request, res: Response) => {
     data: { expense },
   });
 });
-
 
 export { addExpense, getAllExpenses, updateExpense, removeExpense };

@@ -4,6 +4,7 @@ import { ApiResponse } from "@/utils/ApiResponse";
 import { asyncHandler } from "@/utils/asyncHandler";
 import { generateRandomColor } from "@/utils/generateRandomColor";
 import { Request, Response } from "express";
+import mongoose from "mongoose";
 
 const addIncome = asyncHandler(async (req: Request, res: Response) => {
   const { categoryId, source, amount, description } = req.body;
@@ -63,7 +64,38 @@ const getIncomes = asyncHandler(async (req: Request, res: Response) => {
     throw new ApiError(401, "User not authenticated");
   }
   //find income by user id
-  const incomes = await Income.find({ userId: userId });
+  const incomes = await Income.aggregate([
+    {
+      $match: {
+        userId: new mongoose.Types.ObjectId(userId),
+      },
+    },
+    {
+      $lookup: {
+        from: "categories",
+        localField: "categoryId",
+        foreignField: "_id",
+        as: "category",
+        pipeline: [
+          {
+            $project: {
+              name: 1,
+              _id: 1,
+              type: 1,
+            },
+          },
+        ],
+      },
+    },
+    { $sort: { createdAt: -1 } },
+    {
+      $addFields: {
+        category: {
+          $arrayElemAt: ["$category",0]
+        },
+      },
+    },
+  ]);
   if (!incomes) {
     throw new ApiError(404, "No income found for the user");
   }
