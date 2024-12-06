@@ -25,6 +25,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { AddIncomeAndExpeneSchema } from "@/schemas/AddIncomeAndExpenses";
+import { AddCategoryComponent } from "@/components/edit/AddCategory";
 
 interface CategoryType {
   _id: string;
@@ -190,8 +191,11 @@ export default function AddIncomeAndExpene() {
                 name="categoryId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="block md:text-base font-medium text-gray-300 ">
-                      Category
+                    <FormLabel className="flex justify-between md:text-base font-medium text-gray-300 ">
+                     <span> Category</span>
+                     <span>
+                      <AddCategoryComponent />
+                     </span>
                     </FormLabel>
                     <FormControl>
                       <Select

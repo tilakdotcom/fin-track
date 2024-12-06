@@ -80,7 +80,7 @@ const Dashboard: React.FC = () => {
           >
             &#8377; {netProfit}{" "}
             <span className="text-sm">
-              {netProfit > 0 ? "Net Profit" : "Net Loss"}
+              {netProfit >= 0 ? "Net Profit" : "Net Loss"}
             </span>{" "}
             <span className="text-sm">
               ({netProfit >= 0 ? "+" : "-"}

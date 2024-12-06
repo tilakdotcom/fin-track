@@ -16,7 +16,6 @@ const categorySchema = new Schema({
     type: String,
       required: [true, "name must be provided"],
       trim: true,
-      unique: true,
       lowercase: true,
   },
   type: {

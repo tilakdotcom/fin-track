@@ -1,7 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { FilePenLine } from "lucide-react";
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
@@ -26,8 +24,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { AddCategory } from "@/schemas/AddCategory";
+import { Input } from "../ui/input";
 
-export function EditCard() {
+export function AddCategoryComponent() {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof AddCategory>>({
@@ -50,7 +49,7 @@ export function EditCard() {
         throw new Error("Error deleting expense");
       }
       toast.success("Categoty has been added successfully");
-      navigate("/add");
+      navigate(0);
     } catch (error) {
       toast.error("Failed to add category");
       console.error("Error in adding category", error);
@@ -62,7 +61,7 @@ export function EditCard() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className=" text-blue-600 text-xl hover:text-blue-700 cursor-pointer" >
+        <Button className=" bg-transparent shadow-none hover:bg-transparent rounded-xl border-transparent hover:border-green-300  border-[1px]" >
           Add Category
         </Button>
       </DialogTrigger>
@@ -81,6 +80,28 @@ export function EditCard() {
               </p>
 
               <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="block md:text-base font-medium text-gray-300 ">
+                    Title
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="w-full px-4 py-2 rounded-md bg-gray-900 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-primary-light focus:outline-none md:text-base"
+                        placeholder="Enter your Description here..."
+                        {...field}
+                        required
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+              
                 control={form.control}
                 name="type"
                 render={({ field }) => (
