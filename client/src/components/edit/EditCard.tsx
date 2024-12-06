@@ -56,8 +56,7 @@ export function EditCard({ Cardamount, cardId, catType, title }: EditType) {
         throw new Error("Failed to update expense");
       } finally {
         setLoading(false);
-        form.reset();
-        navigate("/expense");
+        navigate(0)
       }
     } else if (catType === "income") {
       try {
@@ -75,7 +74,6 @@ export function EditCard({ Cardamount, cardId, catType, title }: EditType) {
         throw new Error("Failed to update Income");
       } finally {
         setLoading(false);
-        form.reset();
         navigate("/income");
       }
     } else {
@@ -115,7 +113,6 @@ export function EditCard({ Cardamount, cardId, catType, title }: EditType) {
                         className="w-full px-4 py-2 rounded-md bg-gray-900 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-primary-light focus:outline-none md:text-base select-none"
                         placeholder="Enter your Amount"
                         {...field}
-                        value={Cardamount || 0}
                       />
                     </FormControl>
                     <FormMessage />
@@ -136,7 +133,6 @@ export function EditCard({ Cardamount, cardId, catType, title }: EditType) {
                         className="w-full px-4 py-2 rounded-md bg-gray-900 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-primary-light focus:outline-none md:text-base"
                         placeholder="Enter your Description here..."
                         {...field}
-                        value={title || ""}
                       />
                     </FormControl>
                     <FormMessage />
