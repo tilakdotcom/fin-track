@@ -5,25 +5,9 @@ import { useAppDispatch, useAppSelector } from "../store/reduxHooks";
 import { logout } from "@/store/slices/userSlice";
 import { toast } from "react-toastify";
 import api from "@/lib/axiousInstance";
+import { useMenu } from "@/context/MenuState";
+import { NavbarLinks } from "@/data/Links";
 
-const loginData = [
-  {
-    label: "Dashboard",
-    href: "/dashboard",
-  },
-  {
-    label: "Expense",
-    href: "/expense",
-  },
-  {
-    label: "Income",
-    href: "/income",
-  },
-  {
-    label: "Add",
-    href: "/add",
-  },
-];
 const NavBar = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
@@ -31,6 +15,7 @@ const NavBar = () => {
   const dispatch = useAppDispatch();
   //i'll fixed this error soon but this not bothering so leave for now
   const user = currentUser?.user;
+  const {open,setOpen} =useMenu()
 
   const errorToast = () => toast.error("Login Failed");
 
@@ -53,7 +38,6 @@ const NavBar = () => {
       setLoading(false);
     }
   };
-  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header className="bg-transparent shadow-md h-[70px] flex sm:px-8 px-6 w-screen">
@@ -65,7 +49,7 @@ const NavBar = () => {
         </div>
         {currentUser ? (
           <div className=" hidden md:flex items-center justify-between gap-x-3.5">
-            {loginData.map((item, index) => (
+            {NavbarLinks.map((item, index) => (
               <div key={index} className="">
                 <Link
                   to={item.href}
@@ -129,10 +113,10 @@ const NavBar = () => {
 
         {/* Mobile Menu Button */}
         <button
-          onClick={() => setMenuOpen(!menuOpen)}
+          onClick={() => setOpen(!open)}
           className="md:hidden flex items-center text-gray-700 focus:outline-none"
         >
-          {menuOpen ? (
+          {open ? (
             <X className="w-10 h-10" />
           ) : (
             <Menu className="w-10 h-10" />

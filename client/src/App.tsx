@@ -9,11 +9,14 @@ import { useAppSelector } from "./store/reduxHooks";
 import Income from "./pages/IncomePage";
 import AddExAndIn from "./pages/AddExAndIn";
 import Footer from "./components/Footer";
+import { useMenu } from "./context/MenuState";
+import MobileMenu from "./components/MobileMenu";
 
 export default function App() {
   const { currentUser } = useAppSelector((s) => s.persistedReducer?.user);
+  const {open}=useMenu()
   return (
-    <div className="overflow-x-hidden">
+    <div className="overflow-x-hidden relative">
       {/* Navigation */}
       <NavBar />
       <Routes>
@@ -34,6 +37,7 @@ export default function App() {
           </>
         )}
       </Routes>
+      {open ?<MobileMenu /> :""}
       {/* Footer */}
       <Footer />
     </div>

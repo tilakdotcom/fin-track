@@ -8,13 +8,16 @@ import { persistor, store } from "./store/store.ts";
 import "react-toastify/dist/ReactToastify.css";
 import { PersistGate } from "redux-persist/integration/react";
 import { ToastContainer } from "react-toastify";
+import { OpenStateProvider } from "./context/MenuState.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <App />
+          <OpenStateProvider>
+            <App />
+          </OpenStateProvider>
           <ToastContainer />
         </PersistGate>
       </Provider>
