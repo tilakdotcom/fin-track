@@ -1,16 +1,18 @@
-import {  Trash2 } from "lucide-react";
-import React from "react";
+import { Trash2 } from "lucide-react";
 import { EditCard } from "./edit/EditCard";
 import { CardProps } from "./types/types";
+interface CartType extends CardProps {
+  handleOnDelete: (id: string) => void;
+}
 
-
-const Card: React.FC<CardProps> = ({
+const Card: React.FC<CartType> = ({
   id,
   title,
   amount,
   date,
   category,
   type,
+  handleOnDelete,
 }) => {
   return (
     <div className="relative bg-gradient-to-br from-white to-gray-300 shadow-md rounded-xl overflow-hidden border border-gray-200 transform transition-transform duration-300 hover:scale-105 shadow-neutral-500 ">
@@ -48,11 +50,11 @@ const Card: React.FC<CardProps> = ({
 
         {type === "expense" ? (
           <div className="text-lg md:text-3xl font-bold text-red-600">
-            ${amount.toFixed(2)}
+            &#8377; {amount.toFixed(2)}
           </div>
         ) : (
           <div className="text-3xl font-bold text-green-600">
-            ${amount.toFixed(2)}
+            &#8377; {amount.toFixed(2)}
           </div>
         )}
       </div>
@@ -75,12 +77,20 @@ const Card: React.FC<CardProps> = ({
       {/* icons */}
 
       <div className="absolute bottom-6 md:bottom-10 z-10 right-4 flex flex-col gap-4">
-        <div className=" font-bold cursor-pointer ">
-        <Trash2 className="text-rose-500 text-xl bg-red-100"  />
-        </div>
+        <button
+          onClick={() => handleOnDelete(id)}
+          className=" font-bold cursor-pointer "
+        >
+          <Trash2 className="text-rose-500 text-xl " />
+        </button>
         <div className="">
-        <EditCard cardId={id}  Cardamount={amount} title={title} key={id} catType={type} />
-         
+          <EditCard
+            cardId={id}
+            Cardamount={amount}
+            title={title}
+            key={id}
+            catType={type}
+          />
         </div>
       </div>
     </div>

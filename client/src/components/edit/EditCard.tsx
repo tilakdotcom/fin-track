@@ -74,7 +74,7 @@ export function EditCard({ Cardamount, cardId, catType, title }: EditType) {
         throw new Error("Failed to update Income");
       } finally {
         setLoading(false);
-        navigate("/income");
+        navigate(0);
       }
     } else {
       toast.error("invalid request");

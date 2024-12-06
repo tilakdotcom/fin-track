@@ -75,15 +75,15 @@ const Dashboard: React.FC = () => {
           </h2>
           <p
             className={` text-2xl md:text-4xl font-bold  py-2 ${
-              netProfit > 0 ? "text-green-500" : "text-red-500"
-            } ${netProfit == 0 && "text-neutral-950 "}`}
+              netProfit >= 0 ? "text-green-500" : "text-red-500"
+            } ${netProfit == 0 && "text-cyan-500 "}`}
           >
             &#8377; {netProfit}{" "}
             <span className="text-sm">
               {netProfit > 0 ? "Net Profit" : "Net Loss"}
             </span>{" "}
             <span className="text-sm">
-              ({netProfit > 0 ? "+" : "-"}
+              ({netProfit >= 0 ? "+" : "-"}
               {Math.abs(netProfit).toFixed(2)})% of Total Income
             </span>
           </p>

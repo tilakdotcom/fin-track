@@ -17,10 +17,12 @@ import api from "@/lib/axiousInstance";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
 
 export default function SignupPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const successToast = () => toast.success("Signup has been successfully");
+  const navigate = useNavigate()
   //for error
   const errorToast = () => toast.error("Signup Failed");
   const form = useForm<z.infer<typeof signupSchma>>({
@@ -56,12 +58,15 @@ export default function SignupPage() {
       }
       successToast();
       console.log("User Signup Successful", response);
+      navigate("/login")
     } catch (error) {
       console.log("Signup Failed", error);
       errorToast();
       return;
     } finally {
       setLoading(false);
+      form.reset();
+
     }
   }
   return (
