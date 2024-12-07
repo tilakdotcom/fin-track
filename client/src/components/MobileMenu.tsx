@@ -1,11 +1,13 @@
 import { useMenu } from "@/context/MenuState";
 import { NavbarLinks } from "@/data/Links";
 import { useAppSelector } from "@/store/reduxHooks";
+import { RootState } from "@/store/store";
 import { Link } from "react-router-dom";
 
 export default function MobileMenu() {
   const { open, setOpen } = useMenu();
-  const { currentUser } = useAppSelector((s) => s.persistedReducer?.user);
+  const user = useAppSelector((state: RootState) => state.user.currentUser);
+
   return (
     <div
       className={`
@@ -13,7 +15,7 @@ export default function MobileMenu() {
       open ? "right-0" : "-right-0"
     } transition-all duration-500 ease-in-out `}
     >
-      {currentUser ? (
+      {user ? (
         <div className=" space-y-2 mt-5 transition-all duration-500 ease-in-out">
           {NavbarLinks.map((item, index) => (
             <div className="text-center py-2" key={index}>

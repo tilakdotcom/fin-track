@@ -1,5 +1,6 @@
-import { configureStore,combineReducers } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import userSlice from "./slices/userSlice";
+import dataSlice from "./slices/backEndData";
 import {
   persistStore,
   persistReducer,
@@ -11,25 +12,26 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { dataState } from "./slices/backEndData";
 
-
+// Persist configuration
 const persistConfig = {
   key: "root",
   version: 1,
   storage,
 };
 
+// Root reducer combining slices
 const rootReducer = combineReducers({
   user: userSlice,
-  data: dataState
+  data: dataSlice,
 });
 
+// Persisted reducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+// Store configuration
 export const store = configureStore({
-  reducer: {
-    persistedReducer
-  },
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
@@ -37,11 +39,10 @@ export const store = configureStore({
       },
     }),
 });
+
+// Persistor configuration
 export const persistor = persistStore(store);
-export type RootState = ReturnType<typeof store.getState>;
+
+// TypeScript types for state and dispatch
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
-
-
-
-
-

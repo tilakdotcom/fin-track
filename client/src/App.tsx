@@ -11,16 +11,17 @@ import AddExAndIn from "./pages/AddExAndIn";
 import Footer from "./components/Footer";
 import { useMenu } from "./context/MenuState";
 import MobileMenu from "./components/MobileMenu";
+import { RootState } from "./store/store";
 
 export default function App() {
-  const { currentUser } = useAppSelector((s) => s.persistedReducer?.user);
+  const user = useAppSelector((state: RootState) => state.user.currentUser);
   const {open}=useMenu()
   return (
     <div className="overflow-x-hidden relative">
       {/* Navigation */}
       <NavBar />
       <Routes>
-        {currentUser ? (
+        {user ? (
           <>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/expense" element={<AddExpense />} />

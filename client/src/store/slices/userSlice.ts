@@ -1,6 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface user {
+// Interface for a single user
+interface User {
   _id: string;
   name: string;
   password: string;
@@ -10,36 +11,43 @@ interface user {
   updatedAt: string;
 }
 
-interface userState {
-  currentUser: user | null;
+// Interface for user state
+interface UserState {
+  currentUser: User | null;
   loading: boolean;
   error: boolean;
 }
 
-const initialState: userState = {
+// Initial state
+const initialState: UserState = {
   currentUser: null,
   loading: false,
   error: false,
 };
 
+// User slice
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    // Action to handle login start
     loginStart: (state) => {
       state.loading = true;
       state.error = false;
     },
-    loginSuccess: (state, action) => {
+    // Action to handle successful login
+    loginSuccess: (state, action: PayloadAction<User>) => {
       state.currentUser = action.payload;
       state.loading = false;
       state.error = false;
     },
+    // Action to handle logout
     logout: (state) => {
       state.currentUser = null;
       state.loading = false;
       state.error = false;
     },
+    // Action to handle login failure
     loginFailure: (state) => {
       state.loading = false;
       state.error = true;
@@ -47,6 +55,7 @@ export const userSlice = createSlice({
   },
 });
 
+// Export actions and reducer
 export const { loginStart, loginSuccess, logout, loginFailure } =
   userSlice.actions;
 

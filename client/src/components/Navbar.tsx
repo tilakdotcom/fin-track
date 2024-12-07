@@ -1,20 +1,19 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { LogOut, Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router";
-import { useAppDispatch, useAppSelector } from "../store/reduxHooks";
 import { logout } from "@/store/slices/userSlice";
 import { toast } from "react-toastify";
 import api from "@/lib/axiousInstance";
 import { useMenu } from "@/context/MenuState";
 import { NavbarLinks } from "@/data/Links";
+import { RootState } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/reduxHooks";
 
 const NavBar = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
-  const { currentUser } = useAppSelector((s) => s.persistedReducer?.user);
+  const user = useAppSelector((state: RootState) => state.user.currentUser);
   const dispatch = useAppDispatch();
-  //i'll fixed this error soon but this not bothering so leave for now
-  const user = currentUser?.user;
   const {open,setOpen} =useMenu()
 
   const errorToast = () => toast.error("Login Failed");
@@ -47,7 +46,7 @@ const NavBar = () => {
             FinTrack
           </Link>
         </div>
-        {currentUser ? (
+        {user ? (
           <div className=" hidden md:flex items-center justify-between gap-x-3.5">
             {NavbarLinks.map((item, index) => (
               <div key={index} className="">
@@ -63,7 +62,7 @@ const NavBar = () => {
         ) : (
           ""
         )}
-        {currentUser ? (
+        {user ? (
           <div className="hidden md:flex items-center justify-between gap-x-3.5">
             <button
               disabled={loading}
