@@ -3,6 +3,10 @@
     {
       "source": "/api/:path*",
       "destination": "https://fin-track-app.onrender.com/api/:path*"
+    },
+    {
+      "source": "/(.*)", 
+      "destination": "/index.html" 
     }
   ]
 }
