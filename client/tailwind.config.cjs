@@ -1,8 +1,8 @@
-// tailwind.config.cjs
+// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ['class', 'class'],
-  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  darkMode: ['class', 'class'], // Enable dark mode using the 'class' strategy
+  content: ['./src/**/*.{js,ts,jsx,tsx}'], // Specify the paths to your content files
   theme: {
     extend: {
       colors: {
@@ -74,5 +74,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate')], // Include plugins using require
 };

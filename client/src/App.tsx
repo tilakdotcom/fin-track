@@ -38,12 +38,6 @@ export default function App() {
           </>
         )}
       </Routes>
-      <div className=" text-white">
-        {user ? user?._id : "nothing"}
-        ds
-      </div>
-
-      
       {open ?<MobileMenu /> :""}
       {/* Footer */}
       <Footer />
