@@ -1,4 +1,3 @@
-// tailwind.config.mjs
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ['class', 'class'], // Enable dark mode using the 'class' strategy
@@ -74,5 +73,7 @@ export default {
       }
     }
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    (await import("tailwindcss-animate")).default // Dynamically import the plugin
+  ],
 };
