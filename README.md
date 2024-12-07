@@ -49,4 +49,4 @@ Fintrack is a full-stack financial tracker application designed to help you mana
 1. Clone the repository:  
    ```bash
    git clone https://github.com/tilakdotcom/fin-track.git
-   cd fintrack
+   cd fin-track
