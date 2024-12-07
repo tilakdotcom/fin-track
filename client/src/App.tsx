@@ -14,7 +14,7 @@ import MobileMenu from "./components/MobileMenu";
 import { RootState } from "./store/store";
 
 export default function App() {
-  const user = useAppSelector((state: RootState) => state.user.currentUser);
+  const user = useAppSelector((state: RootState) => state.user.currentUser?.user);
   const {open}=useMenu()
   return (
     <div className="overflow-x-hidden relative">
@@ -38,6 +38,12 @@ export default function App() {
           </>
         )}
       </Routes>
+      <div className=" text-white">
+        {user ? user?._id : "nothing"}
+        ds
+      </div>
+
+      
       {open ?<MobileMenu /> :""}
       {/* Footer */}
       <Footer />

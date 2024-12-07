@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from "@/store/reduxHooks";
 const NavBar = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
-  const user = useAppSelector((state: RootState) => state.user.currentUser);
+  const user = useAppSelector((state: RootState) => state.user.currentUser?.user);
   const dispatch = useAppDispatch();
   const {open,setOpen} =useMenu()
 

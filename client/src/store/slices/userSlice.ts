@@ -13,7 +13,7 @@ interface User {
 
 // Interface for user state
 interface UserState {
-  currentUser: User | null;
+  currentUser: { user: User } | null;
   loading: boolean;
   error: boolean;
 }
@@ -36,7 +36,7 @@ export const userSlice = createSlice({
       state.error = false;
     },
     // Action to handle successful login
-    loginSuccess: (state, action: PayloadAction<User>) => {
+    loginSuccess: (state, action: PayloadAction<{user:User}>) => {
       state.currentUser = action.payload;
       state.loading = false;
       state.error = false;
